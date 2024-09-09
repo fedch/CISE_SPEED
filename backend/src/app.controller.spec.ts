@@ -1,3 +1,5 @@
+// A simple test to check if the controller is working properly
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
