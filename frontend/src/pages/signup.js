@@ -9,29 +9,41 @@ import { useRouter } from 'next/router';
 export default function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State to store error messages
   const router = useRouter();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-  
-    const response = await fetch('http://localhost:8082/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-  
-    if (response.ok) {
-      const loginResponse = await fetch('http://localhost:8082/auth/login', {
+
+    try {
+      const response = await fetch('http://localhost:8082/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-  
-      if (loginResponse.ok) {
-        const loginData = await loginResponse.json();
-        localStorage.setItem('token', loginData.access_token); // Store the token in localStorage
-        router.push('/'); // Redirect to homepage after login
+
+      if (response.ok) {
+        // Automatically log in after signup
+        const loginResponse = await fetch('http://localhost:8082/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        if (loginResponse.ok) {
+          const loginData = await loginResponse.json();
+          localStorage.setItem('token', loginData.access_token); // Store the token in localStorage
+          router.push('/'); // Redirect to homepage after login
+        } else {
+          const loginError = await loginResponse.json();
+          setError(loginError.message || 'Signup successful but login failed'); // Handle login failure
+        }
+      } else {
+        const data = await response.json();
+        setError(data.message || 'Signup failed'); // Set error message from backend
       }
+    } catch (err) {
+      setError('An error occurred. Please try again.'); // Handle network errors
     }
   };
 
@@ -39,6 +51,7 @@ export default function Signup() {
     <div className="container">
       <form onSubmit={handleSignup} className="form">
         <h2>Sign Up</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         <input
           type="text"
           placeholder="Email"

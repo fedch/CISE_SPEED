@@ -8,21 +8,29 @@ import { useRouter } from 'next/router';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State to store error messages
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
-    const response = await fetch('http://localhost:8082/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-  
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem('token', data.access_token); // Store the token in localStorage
-      router.push('/'); // Redirect to homepage after login
+
+    try {
+      const response = await fetch('http://localhost:8082/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.access_token); // Store the token in localStorage
+        router.push('/'); // Redirect to homepage after login
+      } else {
+        const data = await response.json();
+        setError(data.message || 'Login failed'); // Set error message from backend
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.'); // Handle network errors
     }
   };
 
@@ -30,6 +38,7 @@ export default function Login() {
     <div className="container">
       <form onSubmit={handleLogin} className="form">
         <h2>Log In</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         <input
           type="text"
           placeholder="Email"
