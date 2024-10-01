@@ -40,11 +40,11 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     // Set the admin role for a specific user
     const role = username === 'nanipip554@sgatra.com' ? 'admin' : 'user';
-    const newUser = new this.userModel({
+    const newUser = await this.userModel.create({
       username,
       password: hashedPassword,
       role,
     });
-    return newUser.save();
+    return newUser;    
   }
 }
