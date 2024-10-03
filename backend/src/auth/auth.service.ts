@@ -60,4 +60,38 @@ export class AuthService {
       user: newUser,
     };
   }
+
+  // Find a user by email
+  async findUserByEmail(email: string): Promise<UserDocument> {
+    console.log('Searching for email:', email); // Debugging line
+    const user = await this.userModel.findOne({ 
+      username: { $regex: new RegExp(`^${email}$`, 'i') } // Case-insensitive search
+    });
+    console.log('User found:', user); // Debugging line
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
+
+  // Get users with specific roles (Moderator or Analyst)
+  async getUsersByRoles(roles: string[]): Promise<UserDocument[]> {
+    return this.userModel.find({ role: { $in: roles } }).exec();
+  }
+
+  // Update user role by email
+  async updateUserRole(email: string, newRole: string): Promise<UserDocument> {
+    const user = await this.userModel.findOne({ username: email });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    user.role = newRole;
+    return user.save();
+  }
+
+  // Get all users
+  async getAllUsers(): Promise<UserDocument[]> {
+    return this.userModel.find().exec(); // Fetch all users
+  }
 }

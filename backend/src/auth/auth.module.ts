@@ -6,18 +6,18 @@
  */
 
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './jwt.strategy';
+import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user.schema';
+import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AdminDashController } from './admin.dash';
+import { JwtStrategy } from './jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), // Register the User schema
     PassportModule,
     ConfigModule,
     JwtModule.registerAsync({
@@ -28,9 +28,9 @@ import { AdminDashController } from './admin.dash';
         signOptions: { expiresIn: '60m' },
       }),
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
   ],
-  providers: [AuthService, JwtStrategy],
-  controllers: [AuthController, AdminDashController],
+  controllers: [AuthController], // Register AuthController
+  providers: [AuthService, JwtStrategy], // Register AuthService and JwtStrategy
+  exports: [AuthService], // Export AuthService so other modules can use it
 })
 export class AuthModule {}

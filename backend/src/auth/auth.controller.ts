@@ -4,7 +4,7 @@
 // The signup route creates a new user account.
 
 
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param, NotFoundException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -28,5 +28,32 @@ export class AuthController {
   async signup(@Body() body: any) {
     // Pass the username and password to AuthService to create a new user
     return this.authService.signup(body.username, body.password);
+  }
+}
+
+@Controller('admin')
+export class AdminController {
+  constructor(private readonly authService: AuthService) {}
+
+  // Get user by email
+  @Get('user')
+  async getUserByEmail(@Query('email') email: string) {
+    const user = await this.authService.findUserByEmail(email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;  // Return user object with role
+  }
+
+  // Get list of users with specific roles
+  @Get('moderators-analysts')
+  async getModeratorsAndAnalysts() {
+    return this.authService.getUsersByRoles(['Moderator', 'Analyst']);
+  }
+
+  // Update user role
+  @Post('user/role')
+  async updateUserRole(@Body() { email, newRole }: { email: string; newRole: string }) {
+    return this.authService.updateUserRole(email, newRole);
   }
 }

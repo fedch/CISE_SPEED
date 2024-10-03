@@ -9,7 +9,7 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({ collection: 'users' }) // Explicitly set the collection name
 export class User {
   @Prop({ required: true, unique: true })
   username: string;
@@ -17,7 +17,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ default: 'user' }) // Default role is 'user'
+  @Prop({ default: 'user' })
   role: string;
 }
 
