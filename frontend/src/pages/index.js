@@ -1,34 +1,45 @@
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from "next/link";
+import { useState } from "react";
 
 export default function HomePage() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalItems = 100; // Assume there are 100 articles for now
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page when items per page changes
   };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const startItemIndex = (currentPage - 1) * itemsPerPage + 1;
+  const endItemIndex = Math.min(startItemIndex + itemsPerPage - 1, totalItems);
 
   return (
     <div className="container">
-      {/* Header */}
-      <header className="header">
-        <h1></h1>
-        <div className="nav-links">
-        </div>
-      </header>
-
       {/* Main content container */}
-        <div className="main-content">
+      <div className="main-content">
         {/* Search Bar */}
         <div className="search-bar">
           <input type="text" placeholder="Enter search here" />
           <button>Search</button>
         </div>
-      
+
         {/* Articles Section */}
         <div className="articles-section">
           <div className="articles-header">
-            <p>1 - 20 of X items found</p>
+            <p>
+              {startItemIndex} - {endItemIndex} of {totalItems} items found
+            </p>
             <div className="items-per-page">
               <label>Items per page: </label>
               <select onChange={handleItemsPerPageChange} value={itemsPerPage}>
@@ -44,11 +55,27 @@ export default function HomePage() {
           <div className="articles-list">
             {[...Array(itemsPerPage)].map((_, index) => (
               <div key={index} className="article-item">
-                <h2>Article Title</h2>
+                <h2>Article Title {startItemIndex + index}</h2>
                 <p>Published: Article Publish Date</p>
                 <p>By: Article Author</p>
               </div>
             ))}
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="pagination-controls">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
@@ -92,8 +119,8 @@ export default function HomePage() {
           color: #000;
           border-radius: 8px;
           padding: 1rem;
-          max-height: 650px; /* Set a fixed height for the article section */
-          overflow-y: auto; /* Enable vertical scrolling */
+          max-height: 80vh;
+          overflow-y: auto;
         }
         .articles-header {
           display: flex;
@@ -105,12 +132,26 @@ export default function HomePage() {
         }
         .articles-list {
           overflow-y: auto;
-          max-height: 550px; /* Set max height for scrollable area */
+          max-height: 100%;
         }
         .article-item {
           margin-bottom: 1rem;
           border-bottom: 1px solid #ccc;
           padding-bottom: 1rem;
+        }
+        .pagination-controls {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+        }
+        .pagination-controls button {
+          padding: 0.2rem 1rem;
+          cursor: pointer;
+          border: 1px black solid;
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+        .pagination-controls span {
+          align-self: center;
         }
       `}</style>
     </div>
