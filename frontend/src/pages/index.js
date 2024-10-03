@@ -144,12 +144,12 @@ export default function HomePage() {
         }
         .article-item {
           margin-bottom: 1rem;
-          border-bottom: 1px solid #ccc;
           padding-bottom: 1rem;
+          background-color: rgb(0, 0, 0, 0.07);
         }
         .article-item h2 {
           font-size: 20px;
-          // font-weight: bold;
+          font-weight: bold;
         }
         .article-item a {
           color: #0070f3;
