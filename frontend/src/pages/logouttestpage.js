@@ -8,11 +8,11 @@ export default function LogoutTestPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Clear localStorage and redirect to login page
-    localStorage.removeItem('email');
+    // Clear the token from localStorage
+    localStorage.removeItem('token');
     alert('You have been logged out');
-    router.push('/login');
+    router.push('/login'); // Redirect to login after logging out
   }, [router]);
 
-  return null; // Nothing to render, it's just for logging out
+  return null; // No need to render anything
 }

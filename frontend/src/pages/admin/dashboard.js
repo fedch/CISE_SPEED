@@ -2,6 +2,7 @@
 // It allows the admin to manage user roles (assigning and removing roles).
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function AdminDashboard() {
   const [username, setUsername] = useState('');
@@ -14,6 +15,7 @@ export default function AdminDashboard() {
   const [analysts, setAnalysts] = useState([]);
   const [email, setEmail] = useState('');
   const [newRole, setNewRole] = useState(''); // To store the new role for updating
+  const router = useRouter();
 
   // Fetch users and set moderators/analysts
   const fetchUsers = async () => {
@@ -29,10 +31,26 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    // Fetch users on load
-    fetchUsers();
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT
+      setUsername(payload.username);
+
+      // Check if the logged-in user is the admin
+      if (payload.username === 'nanipip554@sgatra.com') {
+        setIsAdmin(true);
+        fetchUsers(); // Fetch users on load
+      } else {
+        alert('You are not authorized to view this page.');
+        router.push('/login');
+      }
+    } else {
+      // If no token is found, redirect to login
+      alert('You need to log in first.');
+      router.push('/login');
+    }
     setLoading(false);
-  }, []);
+  }, [router]);
 
   // Handle user search by email
   const handleSearch = async () => {
@@ -83,7 +101,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <h1>Admin Dashboard</h1>
-      <p>Welcome, nanipip554@sgatra.com!</p>
+      <p>Welcome, {username}!</p>
       <h2>Search for a User by Email</h2>
       <input
         type="email"
