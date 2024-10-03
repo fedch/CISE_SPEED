@@ -17,6 +17,7 @@ describe('AdminController', () => {
 
   const mockAuthService = {
     findUserByEmail: jest.fn(),
+    updateUserRole: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -45,11 +46,25 @@ describe('AdminController', () => {
   it('should throw NotFoundException when the user is not found', async () => {
     mockAuthService.findUserByEmail.mockResolvedValue(null); // Mock user not found
 
-    try {
-      await controller.getUserByEmail('nonexistent@email.com');
-    } catch (e) {
-      expect(e).toBeInstanceOf(NotFoundException); // Expect NotFoundException to be thrown
-      expect(e.message).toEqual('User not found');
-    }
+    await expect(controller.getUserByEmail('nonexistent@email.com')).rejects.toThrow(
+      NotFoundException,
+    );
+    expect(authService.findUserByEmail).toHaveBeenCalledWith('nonexistent@email.com');
+  });
+
+  it('should update the user role', async () => {
+    const updatedUser = { ...mockUser, role: 'Moderator' }; // Mock updated user data
+    mockAuthService.updateUserRole.mockResolvedValue(updatedUser); // Mock role update
+
+    const result = await controller.updateUserRole({
+      email: mockUser.username,
+      newRole: 'Moderator',
+    });
+
+    expect(result).toEqual(updatedUser); // Expect the updated user
+    expect(authService.updateUserRole).toHaveBeenCalledWith(
+      mockUser.username,
+      'Moderator',
+    );
   });
 });

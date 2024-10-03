@@ -13,23 +13,25 @@ export default function AdminDashboard() {
   const [moderators, setModerators] = useState([]);
   const [analysts, setAnalysts] = useState([]);
   const [email, setEmail] = useState('');
+  const [newRole, setNewRole] = useState(''); // To store the new role for updating
+
+  // Fetch users and set moderators/analysts
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('http://localhost:8082/admin/users'); // Fetch all users
+      const data = await response.json();
+      setUsers(data);
+      setModerators(data.filter(user => user.role === 'Moderator'));
+      setAnalysts(data.filter(user => user.role === 'Analyst'));
+    } catch (err) {
+      console.error('Failed to load users:', err);
+    }
+  };
 
   useEffect(() => {
     // Fetch users on load
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('http://localhost:8082/admin/users'); // Fetch all users
-        const data = await response.json();
-        setUsers(data);
-        setModerators(data.filter(user => user.role === 'Moderator'));
-        setAnalysts(data.filter(user => user.role === 'Analyst'));
-        setLoading(false);
-      } catch (err) {
-        console.error('Failed to load users:', err);
-        setLoading(false);
-      }
-    };
     fetchUsers();
+    setLoading(false);
   }, []);
 
   // Handle user search by email
@@ -42,9 +44,35 @@ export default function AdminDashboard() {
       const data = await response.json();
       setSearchResult(data);
       setSearchError('');
+      setNewRole(data.role); // Set current role for the user to the dropdown
     } catch (err) {
       setSearchError(err.message);
       setSearchResult(null);
+    }
+  };
+
+  // Handle role change
+  const handleRoleChange = async () => {
+    try {
+      const response = await fetch('http://localhost:8082/admin/user/role', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: searchResult.username,
+          newRole: newRole,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update role');
+      }
+      const updatedUser = await response.json();
+      alert(`Role updated to ${updatedUser.role}`);
+      setSearchResult(updatedUser); // Update the displayed user with the new role
+
+      // Refetch the updated list of users to update moderators/analysts
+      await fetchUsers(); // Fetch the updated list after role change
+    } catch (err) {
+      alert(err.message);
     }
   };
 
@@ -71,6 +99,20 @@ export default function AdminDashboard() {
           <h3>User Found:</h3>
           <p>Email: {searchResult.username}</p>
           <p>Role: {searchResult.role}</p>
+
+          <div>
+            <label htmlFor="role">Change Role:</label>
+            <select
+              id="role"
+              value={newRole}
+              onChange={(e) => setNewRole(e.target.value)}
+            >
+              <option value="user">User</option>
+              <option value="Moderator">Moderator</option>
+              <option value="Analyst">Analyst</option>
+            </select>
+            <button onClick={handleRoleChange}>Update Role</button>
+          </div>
         </div>
       )}
 

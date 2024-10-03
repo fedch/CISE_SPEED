@@ -1,25 +1,37 @@
 // This file defines an AdminController class that handles admin routes.
 
-import { Controller, Get, Query, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, NotFoundException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
-@Controller('admin') // Route prefix is 'admin'
+@Controller('admin')
 export class AdminController {
   constructor(private readonly authService: AuthService) {}
 
-  // GET /admin/user?email=email
+  // Get user by email
   @Get('user')
   async getUserByEmail(@Query('email') email: string) {
     const user = await this.authService.findUserByEmail(email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user; // This returns the user object
+    return user;
   }
 
-  // GET /admin/users
+  // Get list of all users
   @Get('users')
   async getAllUsers() {
-    return this.authService.getAllUsers(); // Fetch all users from the service
+    return this.authService.getAllUsers();
+  }
+
+  // Update user role
+  @Post('user/role')
+  async updateUserRole(
+    @Body() { email, newRole }: { email: string; newRole: string }
+  ) {
+    const updatedUser = await this.authService.updateUserRole(email, newRole);
+    if (!updatedUser) {
+      throw new NotFoundException('User not found');
+    }
+    return updatedUser;
   }
 }
