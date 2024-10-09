@@ -4,10 +4,8 @@ import Link from "next/link";
 export default function HomePage() {
   // Default the articles to an empty array to avoid undefined issues
   const [articles, setArticles] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-
-  console.log(articles); // Add this to inspect the data
 
   // Total items and pages calculation
   const totalItems = articles.length;
@@ -17,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch("http://localhost:8082/articles"); // This should match your controller path
+        const res = await fetch("http://localhost:8082/articles");
         if (!res.ok) {
           throw new Error("Failed to fetch articles");
         }
@@ -58,7 +56,7 @@ export default function HomePage() {
     <div className="container">
       {/* Header */}
       <header className="header">
-        <h1>LOGO</h1>
+        {/* <h1>LOGO</h1>
         <div className="nav-links">
           <Link href="/signup" legacyBehavior>
             <a>Sign up</a>
@@ -69,7 +67,7 @@ export default function HomePage() {
           <Link href="/new-article" legacyBehavior>
             <a>New Article</a>
           </Link>
-        </div>
+        </div> */}
       </header>
 
       {/* Main content */}
@@ -91,6 +89,7 @@ export default function HomePage() {
             <div className="items-per-page">
               <label>Items per page: </label>
               <select onChange={handleItemsPerPageChange} value={itemsPerPage}>
+                <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
@@ -102,20 +101,18 @@ export default function HomePage() {
           {/* Article List */}
           <div className="articles-list">
             {selectedArticles.map((article, index) => (
-              <div key={index} className="article-item">
-                <Link href={`/articles/${article.id}`} legacyBehavior>
-                  <a>
+                <Link key={index} href={`/articles/${article.id}`} legacyBehavior>
+                  <div key={index} className="article-item">{/* <a> */}
                     <h2>{article.title}</h2>
-                    <p>Published: {article.publishDate}</p>
+                    <p>Published: {article.publicationDate}</p>
                     <p>By: {article.author}</p>
-                  </a>
+                  </div>{/* </a> */}
                 </Link>
-              </div>
             ))}
           </div>
 
           {/* Pagination Controls */}
-          <div className="pagination">
+          <div className="pagination-controls">
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
             </button>
@@ -137,7 +134,7 @@ export default function HomePage() {
           background-color: #333;
           color: white;
           min-height: 100vh;
-          padding: 1rem;
+          min-width: 100vw;
         }
         .header {
           display: flex;
@@ -172,7 +169,7 @@ export default function HomePage() {
           color: #000;
           border-radius: 8px;
           padding: 1rem;
-          max-height: 90vh;
+          max-height: 85vh;
           overflow-y: auto;
         }
         .articles-header {
@@ -189,19 +186,15 @@ export default function HomePage() {
         }
         .article-item {
           margin-bottom: 1rem;
-          padding-bottom: 1rem;
+          padding: 0.5rem;
           background-color: rgb(0, 0, 0, 0.07);
         }
         .article-item h2 {
           font-size: 20px;
           font-weight: bold;
         }
-        .article-item a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-        .article-item a:hover {
-          text-decoration: underline;
+        .article-item:hover {
+          background-color: rgb(0, 0, 0, 0.15);
         }
         .pagination-controls {
           display: flex;
