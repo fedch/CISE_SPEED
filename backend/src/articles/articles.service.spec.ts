@@ -23,17 +23,17 @@ describe('ArticlesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArticlesService,
-//         {
-//           provide: getModelToken(Article.name), // 模拟 Mongoose 模型
-//           useValue: {
-//             find: jest.fn().mockReturnValue({
-//               exec: jest.fn().mockResolvedValue([mockArticle]), // 模拟 find().exec()
-//             }),
-//             findById: jest.fn().mockReturnValue({
-//               exec: jest.fn().mockResolvedValue(mockArticle), // 模拟 findById().exec()
-//             }),
-//           },
-//         },
+        {
+          provide: getModelToken(Article.name), // 模拟 Mongoose 模型
+          useValue: {
+            find: jest.fn().mockReturnValue({
+              exec: jest.fn().mockResolvedValue([mockArticle]), // 模拟 find().exec()
+            }),
+            findById: jest.fn().mockReturnValue({
+              exec: jest.fn().mockResolvedValue(mockArticle), // 模拟 findById().exec()
+            }),
+          },
+        },
       ],
     }).compile();
 
