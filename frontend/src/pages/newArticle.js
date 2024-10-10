@@ -1,100 +1,159 @@
 import { useState } from 'react';
 
 const SubmitArticle = () => {
-  const [articleName, setArticleName] = useState('');
-  const [articleLink, setArticleLink] = useState('');
-  const [evidenceLink, setEvidenceLink] = useState('');
-  const [synopsis, setSynopsis] = useState('');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [publicationDate, setPublicationDate] = useState('');
+  const [DOI, setDOI] = useState('');
+  const [abstract, setAbstract] = useState('');
+  const [uploadDate, setUploadDate] = useState('');
+  const [link, setLink] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const submissionData = {
-      articleName,
-      articleLink,
-      evidenceLink,
-      synopsis,
+      title,
+      author,
+      publicationDate,
+      DOI,
+      abstract,
+      uploadDate,
+      link,
     };
 
     // Simulate form submission (e.g., send to backend)
     console.log('Form Submitted', submissionData);
 
     // Reset the form and set submission state
-    setArticleName('');
-    setArticleLink('');
-    setEvidenceLink('');
-    setSynopsis('');
+    setTitle('');
+    setAuthor('');
+    setPublicationDate('');
+    setDOI('');
+    setAbstract('');
+    setUploadDate('');
+    setLink('');
     setSubmitted(true);
   };
 
-  return ( // Splitting Div, because the standard globals.css is bad, this is a temporary styling 
-    <div style=
-    {{  margin: 'auto', padding: '60px',  
-        backgroundColor: 'deepskyblue',
-        color: 'black',
-        minHeight: '100vh' }} // Page reaches till bottom. It's blue, because blue is nice.
-    >
+  return (
+    <div style={{ 
+      margin: 'auto', 
+      padding: '60px',  
+      backgroundColor: 'deepskyblue',
+      color: 'black',
+      minHeight: '100vh' // Page reaches till bottom
+    }}>
       <h1>Submit an Article</h1>
       {submitted && <p style={{ color: 'green' }}>Submission successful!</p>}
       <form onSubmit={handleSubmit}>
+        
+        {/* Title */}
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="articleName">Article Name</label>
+          <label htmlFor="title">Title</label>
           <input
             type="text"
-            id="articleName"
-            value={articleName}
-            onChange={(e) => setArticleName(e.target.value)}
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
             style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </div>
 
+        {/* Author */}
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="articleLink">Article Link</label>
+          <label htmlFor="author">Author</label>
           <input
-            type="url"
-            id="articleLink"
-            value={articleLink}
-            onChange={(e) => setArticleLink(e.target.value)}
+            type="text"
+            id="author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
             required
             style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </div>
 
+        {/* Publication Date */}
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="evidenceLink">Evidence Link (optional)</label>
+          <label htmlFor="publicationDate">Publication Date</label>
           <input
-            type="url"
-            id="evidenceLink"
-            value={evidenceLink}
-            onChange={(e) => setEvidenceLink(e.target.value)}
+            type="text"
+            id="publicationDate"
+            value={publicationDate}
+            onChange={(e) => setPublicationDate(e.target.value)}
+            required
             style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </div>
 
+        {/* DOI */}
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="synopsis">Article Synopsis</label>
+          <label htmlFor="DOI">DOI</label>
+          <input
+            type="text"
+            id="DOI"
+            value={DOI}
+            onChange={(e) => setDOI(e.target.value)}
+            required
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+          />
+        </div>
+
+        {/* Abstract */}
+        <div style={{ marginBottom: '10px' }}>
+          <label htmlFor="abstract">Abstract</label>
           <textarea
-            id="synopsis"
-            value={synopsis}
-            onChange={(e) => setSynopsis(e.target.value)}
+            id="abstract"
+            value={abstract}
+            onChange={(e) => setAbstract(e.target.value)}
             required
             rows="5"
             style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </div>
 
+        {/* Upload Date */}
+        <div style={{ marginBottom: '10px' }}>
+          <label htmlFor="uploadDate">Upload Date</label>
+          <input
+            type="text"
+            id="uploadDate"
+            value={uploadDate}
+            onChange={(e) => setUploadDate(e.target.value)}
+            required
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+          />
+        </div>
+
+        {/* Link */}
+        <div style={{ marginBottom: '10px' }}>
+          <label htmlFor="link">Link</label>
+          <input
+            type="text"
+            id="link"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            required
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+          />
+        </div>
+
+        {/* Submit Button */}
         <div> 
-          <button type="submit" style={{ // The submission button.
-            padding: '10px 20px', 
-            cursor: 'pointer',
-            color: 'black',
-            border: '1px solid #007bff',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            backgroundColor: 'lightgrey' }}>
+          <button 
+            type="submit" 
+            style={{ 
+              padding: '10px 20px', 
+              cursor: 'pointer',
+              color: 'black',
+              border: '1px solid #007bff',
+              borderRadius: '4px',
+              fontSize: '16px',
+              backgroundColor: 'lightgrey'
+            }}
+          >
             Submit 
           </button>
         </div>
