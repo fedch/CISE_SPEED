@@ -1,18 +1,22 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { Article } from './schemas/article.schema';
+import { CreateArticleDto } from './article-submit.dto';
+
 
 @Controller('api/articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  async create(@Body() articleDto: any): Promise<Article> {
-    return this.articlesService.create(articleDto);
+  async create(@Body() createArticleDto: CreateArticleDto)
+  {
+    return this.articlesService.create(createArticleDto);
   }
 
   @Get()
-  async findAll(): Promise<Article[]> {
+  async findAll()
+  {
     return this.articlesService.findAll();
   }
 
