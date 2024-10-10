@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
+import { Article } from './schemas/article.schema';
 import { CreateArticleDto } from './article-submit.dto';
-import { Article } from './article.entity';
+
 
 @Controller('articles')
 export class ArticlesController {
