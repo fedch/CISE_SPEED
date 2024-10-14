@@ -22,7 +22,7 @@ export default function AdminDashboard() {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users`); // Fetch all users
       const data = await response.json();
-      setUsers(data);
+      // setUsers(data);
       setModerators(data.filter(user => user.role === 'Moderator'));
       setAnalysts(data.filter(user => user.role === 'Analyst'));
     } catch (err) {
@@ -38,7 +38,7 @@ export default function AdminDashboard() {
 
       // Check if the logged-in user is the admin
       if (payload.username === 'nanipip554@sgatra.com') {
-        setIsAdmin(true);
+        // setIsAdmin(true);
         fetchUsers(); // Fetch users on load
       } else {
         alert('You are not authorized to view this page.');
