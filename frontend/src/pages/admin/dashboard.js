@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 
 export default function AdminDashboard() {
   const [username, setUsername] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
   const [searchError, setSearchError] = useState('');
   const [moderators, setModerators] = useState([]);

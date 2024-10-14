@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Article } from '../../types/Article';
 
 const ArticleDetail: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;  // 获取路由中的文章ID
 
   // 初始化文章状态和加载状态
-  const [article, setArticle] = useState<any>(null);
+  const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +28,12 @@ const ArticleDetail: React.FC = () => {
           console.log('Fetched article data:', data);  // 添加调试信息，查看返回的数据
           setArticle(data);  // 设置文章数据
         } catch (err) {
-          setError(err.message);
+          // Type guard to check if the error is an instance of Error
+          if (err instanceof Error) {
+            setError(err.message); // Access the message property safely
+          } else {
+            setError('An unknown error occurred'); // Handle cases where it's not an Error object
+          }
         } finally {
           setLoading(false);  // 停止加载状态
         }

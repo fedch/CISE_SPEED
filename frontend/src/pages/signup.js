@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Signup() {
   const [username, setUsername] = useState('');
@@ -68,7 +69,7 @@ export default function Signup() {
         />
         <button type="submit">Sign Up</button>
         <p>
-          Already have an account? <a href="/login">Log in</a>
+          Already have an account? <Link href="/login">Log in</Link>
         </p>
       </form>
       <style jsx>{`
