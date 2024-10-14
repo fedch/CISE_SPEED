@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   // Fetch users and set moderators/analysts
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8082/admin/users'); // Fetch all users
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users`); // Fetch all users
       const data = await response.json();
       setUsers(data);
       setModerators(data.filter(user => user.role === 'Moderator'));
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
   // Handle user search by email
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:8082/admin/user?email=${email}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/user?email=${email}`);
       if (!response.ok) {
         throw new Error('User not found');
       }
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
   // Handle role change
   const handleRoleChange = async () => {
     try {
-      const response = await fetch('http://localhost:8082/admin/user/role', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/user/role`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

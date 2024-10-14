@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch("http://localhost:8082/articles");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
         if (!res.ok) {
           throw new Error("Failed to fetch articles");
         }
@@ -27,6 +27,11 @@ export default function HomePage() {
     };
     fetchArticles();
   }, []); // Empty array ensures the effect runs only once when the component mounts
+
+  useEffect(() => {
+    console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);  // This should log the correct URL
+  }, []);
+  
 
   // Handle items per page change
   const handleItemsPerPageChange = (e) => {
@@ -59,13 +64,13 @@ export default function HomePage() {
         {/* <h1>LOGO</h1>
         <div className="nav-links">
           <Link href="/signup" legacyBehavior>
-            <a>Sign up</a>
+            <Link>Sign up</Link>
           </Link>
           <Link href="/login" legacyBehavior>
-            <a>Login</a>
+            <Link>Login</Link>
           </Link>
           <Link href="/new-article" legacyBehavior>
-            <a>New Article</a>
+            <Link>New Article</Link>
           </Link>
         </div> */}
       </header>
@@ -102,11 +107,11 @@ export default function HomePage() {
           <div className="articles-list">
             {selectedArticles.map((article, index) => (
                 <Link key={index} href={`/articles/${article.id}`} legacyBehavior>
-                  <div key={index} className="article-item">{/* <a> */}
+                  <div key={index} className="article-item">{/* <Link> */}
                     <h2>{article.title}</h2>
                     <p>Published: {article.publicationDate}</p>
                     <p>By: {article.author}</p>
-                  </div>{/* </a> */}
+                  </div>{/* </Link> */}
                 </Link>
             ))}
           </div>

@@ -11,7 +11,7 @@ const Articles: React.FC = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch('http://localhost:8082/api/articles');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -51,8 +51,8 @@ const Articles: React.FC = () => {
             </p>
             <p className="text-gray-700 mt-4">{article.abstract}</p>
             {/* 使用 Next.js 的 Link 组件来导航到动态路由页面 */}
-            <Link href={`/articles/${article.DOI}`}>
-              <a className="inline-block mt-4 text-blue-500 hover:underline">Read more →</a>
+            <Link href={`/articles/${article.DOI}`} className="inline-block mt-4 text-blue-500 hover:underline">
+              Read more →
             </Link>
           </li>
         ))}

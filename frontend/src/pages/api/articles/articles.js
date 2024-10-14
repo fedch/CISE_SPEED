@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      const response = await fetch("http://localhost:8082/articles/articles", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles/articles`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
