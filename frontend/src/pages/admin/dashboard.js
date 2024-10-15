@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 
 export default function AdminDashboard() {
   const [username, setUsername] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
   const [searchError, setSearchError] = useState('');
   const [moderators, setModerators] = useState([]);
@@ -20,9 +20,9 @@ export default function AdminDashboard() {
   // Fetch users and set moderators/analysts
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8082/admin/users'); // Fetch all users
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users`); // Fetch all users
       const data = await response.json();
-      setUsers(data);
+      // setUsers(data);
       setModerators(data.filter(user => user.role === 'Moderator'));
       setAnalysts(data.filter(user => user.role === 'Analyst'));
     } catch (err) {
@@ -38,7 +38,7 @@ export default function AdminDashboard() {
 
       // Check if the logged-in user is the admin
       if (payload.username === 'nanipip554@sgatra.com') {
-        setIsAdmin(true);
+        // setIsAdmin(true);
         fetchUsers(); // Fetch users on load
       } else {
         alert('You are not authorized to view this page.');
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
   // Handle user search by email
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:8082/admin/user?email=${email}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/user?email=${email}`);
       if (!response.ok) {
         throw new Error('User not found');
       }
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
   // Handle role change
   const handleRoleChange = async () => {
     try {
-      const response = await fetch('http://localhost:8082/admin/user/role', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/user/role`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

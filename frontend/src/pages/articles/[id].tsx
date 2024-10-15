@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Article } from '../../types/Article';
+import Link from 'next/link';
 
 const ArticleDetail: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;  // 获取路由中的文章ID
 
   // 初始化文章状态和加载状态
-  const [article, setArticle] = useState<any>(null);
+  const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +18,7 @@ const ArticleDetail: React.FC = () => {
       const fetchArticle = async () => {
         try {
           console.log(`Fetching article with id: ${id}`);  // 添加调试信息，确保 id 被正确获取
-          const response = await fetch(`http://localhost:8082/api/articles/${id}`);// 向后端发送请求，获取文章数据
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles/${id}`);// 向后端发送请求，获取文章数据
 
           // 检查请求是否成功
           if (!response.ok) {
@@ -27,7 +29,12 @@ const ArticleDetail: React.FC = () => {
           console.log('Fetched article data:', data);  // 添加调试信息，查看返回的数据
           setArticle(data);  // 设置文章数据
         } catch (err) {
-          setError(err.message);
+          // Type guard to check if the error is an instance of Error
+          if (err instanceof Error) {
+            setError(err.message); // Access the message property safely
+          } else {
+            setError('An unknown error occurred'); // Handle cases where it's not an Error object
+          }
         } finally {
           setLoading(false);  // 停止加载状态
         }
@@ -63,9 +70,9 @@ const ArticleDetail: React.FC = () => {
       <p><strong>DOI:</strong> {article.DOI}</p>
       <p><strong>Abstract:</strong> {article.abstract}</p>
       <p><strong>Upload Date:</strong> {article.uploadDate}</p>
-      <a href={article.link} className="text-blue-500 underline mt-4 block" target="_blank" rel="noopener noreferrer">
+      <Link href={article.link} className="text-blue-500 underline mt-4 block" target="_blank" rel="noopener noreferrer">
         Read Full Article
-      </a>
+      </Link>
 
       {/* 文章评论区 */}
       <section className="mt-8">

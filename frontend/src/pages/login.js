@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8082/auth/login', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -55,7 +56,7 @@ export default function Login() {
         />
         <button type="submit">Log In</button>
         <p>
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don&#39;t have an account? <Link href="/signup">Sign up</Link>
         </p>
       </form>
       <style jsx>{`

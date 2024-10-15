@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ArticlesService } from './articles.service';
 import { ArticlesController } from './articles.controller';
-import { Article, ArticleSchema } from './schemas/article.schema';  // 导入 Article 和 ArticleSchema
+import { ArticlesService } from './articles.service';
+import { Article, ArticleSchema } from './article.entity'; // Adjust the path if necessary
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]),  // 注册 ArticleSchema
+    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]),
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService],

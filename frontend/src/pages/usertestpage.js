@@ -11,7 +11,7 @@ export default function UserTestPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:8082/admin/users'); // Call the backend API
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users`); // Call the backend API
         if (!response.ok) {
           throw new Error('Failed to fetch users');
         }

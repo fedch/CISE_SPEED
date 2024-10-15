@@ -1,13 +1,12 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { Article } from './schemas/article.schema';
 import { CreateArticleDto } from './article-submit.dto';
+import { Article } from './article.entity';
 
-
-@Controller('api/articles')
+@Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
-
+  
   @Post()
   async create(@Body() createArticleDto: CreateArticleDto)
   {
@@ -19,7 +18,7 @@ export class ArticlesController {
   {
     return this.articlesService.findAll();
   }
-
+  
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Article> {
     return this.articlesService.findOne(id);
