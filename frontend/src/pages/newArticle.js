@@ -13,9 +13,9 @@ const SubmitArticle = () => {
 
   const router = useRouter(); // Initialize useRouter
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const submissionData = {
       title,
       author,
@@ -25,23 +25,40 @@ const SubmitArticle = () => {
       uploadDate,
       link,
     };
-
-    // Simulate form submission (e.g., send to backend)
-    console.log('Form Submitted', submissionData);
-
-    // Reset the form and set submission state
-    setTitle('');
-    setAuthor('');
-    setPublicationDate('');
-    setDOI('');
-    setAbstract('');
-    setUploadDate('');
-    setLink('');
-    setSubmitted(true);
-
-    // Navigate to another page after submission
-    router.push('/submission-success'); // Redirect to the 'submission-success' page
+  
+    try {
+      const response = await fetch('/api/articles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Form Submitted', result);
+        
+        // Reset the form and set submission state
+        setTitle('');
+        setAuthor('');
+        setPublicationDate('');
+        setDOI('');
+        setAbstract('');
+        setUploadDate('');
+        setLink('');
+        setSubmitted(true);
+  
+        // Optionally redirect to success page
+        router.push('/submission-success');
+      } else {
+        console.error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
   };
+  
 
   return (
     <div style={{ 
