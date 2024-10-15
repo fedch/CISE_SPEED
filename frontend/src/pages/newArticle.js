@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router'; // Import useRouter
 
 const SubmitArticle = () => {
   const [title, setTitle] = useState('');
@@ -9,6 +10,8 @@ const SubmitArticle = () => {
   const [uploadDate, setUploadDate] = useState('');
   const [link, setLink] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  const router = useRouter(); // Initialize useRouter
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +38,9 @@ const SubmitArticle = () => {
     setUploadDate('');
     setLink('');
     setSubmitted(true);
+
+    // Navigate to another page after submission
+    router.push('/submission-success'); // Redirect to the 'submission-success' page
   };
 
   return (
