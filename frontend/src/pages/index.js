@@ -106,13 +106,21 @@ export default function HomePage() {
           {/* Article List */}
           <div className="articles-list">
             {selectedArticles.map((article, index) => (
-                <Link key={index} href={`/articles/${article.id}`} legacyBehavior>
-                  <div key={index} className="article-item">{/* <Link> */}
+              <div key={index} className="article-item">
+                <Link href={`/articles/${article.id}`} legacyBehavior>
+                  <a>
                     <h2>{article.title}</h2>
-                    <p>Published: {article.publicationDate}</p>
-                    <p>By: {article.author}</p>
-                  </div>{/* </Link> */}
+                  </a>
                 </Link>
+                <p>Published: {article.publicationDate}</p>
+                <p>By: {article.author}</p>
+                <p>
+                  DOI:{" "}
+                  <a href={`https://doi.org/${article.DOI}`} target="_blank" rel="noopener noreferrer">
+                    {article.DOI}
+                  </a>
+                </p>
+              </div>
             ))}
           </div>
 
