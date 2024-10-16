@@ -59,22 +59,6 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      {/* Header */}
-      <header className="header">
-        {/* <h1>LOGO</h1>
-        <div className="nav-links">
-          <Link href="/signup" legacyBehavior>
-            <Link>Sign up</Link>
-          </Link>
-          <Link href="/login" legacyBehavior>
-            <Link>Login</Link>
-          </Link>
-          <Link href="/new-article" legacyBehavior>
-            <Link>New Article</Link>
-          </Link>
-        </div> */}
-      </header>
-
       {/* Main content */}
       <div className="main-content">
         {/* Search Bar */}
@@ -106,7 +90,7 @@ export default function HomePage() {
           {/* Article List */}
           <div className="articles-list">
             {selectedArticles.map((article, index) => (
-                <Link key={index} href={`/articles/${article.id}`} legacyBehavior>
+                <Link key={index} href={`/articles/${article._id}`} legacyBehavior>
                   <div key={index} className="article-item">{/* <Link> */}
                     <h2>{article.title}</h2>
                     <p>Published: {article.publicationDate}</p>
