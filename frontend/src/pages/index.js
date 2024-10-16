@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
         if (!res.ok) {
           throw new Error("Failed to fetch articles");
         }
