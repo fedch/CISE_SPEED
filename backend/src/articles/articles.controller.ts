@@ -50,6 +50,13 @@ export class ArticlesController {
     }
     return this.analysisService.createAnalysis(
       id,
+      createAnalysisDto.title,
+      createAnalysisDto.author,
+      createAnalysisDto.publicationDate,
+      createAnalysisDto.DOI,
+      createAnalysisDto.abstract,
+      createAnalysisDto.uploadDate,
+      createAnalysisDto.link,
       createAnalysisDto.practice,
       createAnalysisDto.claim,
       createAnalysisDto.result,

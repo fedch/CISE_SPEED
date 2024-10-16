@@ -11,11 +11,18 @@ export class ArticleAnalysisService {
 
   async createAnalysis(
     articleId: string,
+    title: string,
+    author: string,
+    publicationDate: string,
+    DOI: string,
+    abstract: string,
+    uploadDate: string,
+    link: string,
     practice: string,
     claim: string,
     result: string,
   ): Promise<ArticleAnalysis> {
-    const newAnalysis = new this.analysisModel({ articleId, practice, claim, result });
+    const newAnalysis = new this.analysisModel({ articleId, title, author, publicationDate, DOI, abstract, uploadDate, link, practice, claim, result });
     return newAnalysis.save();
   }
 

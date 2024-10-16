@@ -6,7 +6,28 @@ export type ArticleAnalysisDocument = ArticleAnalysis & Document;
 @Schema()
 export class ArticleAnalysis {
   @Prop({ required: true })
-  articleId: string; // Reference to the article's ID
+  articleId: string;
+
+  @Prop({ required: true }) 
+  title: string;
+
+  @Prop() 
+  author: string;
+
+  @Prop() 
+  publicationDate: string;
+
+  @Prop() 
+  DOI: string;
+
+  @Prop()  
+  abstract: string;
+
+  @Prop()
+  uploadDate: string;
+
+  @Prop()  
+  link: string;
 
   @Prop({ required: true })
   practice: string;
