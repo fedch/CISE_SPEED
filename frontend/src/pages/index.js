@@ -95,6 +95,12 @@ export default function HomePage() {
                     <h2>{article.title}</h2>
                     <p>Published: {article.publicationDate}</p>
                     <p>By: {article.author}</p>
+                    <p>
+                      DOI:{" "}
+                      <a href={`https://doi.org/${article.DOI}`} target="_blank" rel="noopener noreferrer">
+                        {article.DOI}
+                      </a>
+                    </p>
                   </div>{/* </Link> */}
                 </Link>
             ))}
