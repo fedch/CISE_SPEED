@@ -106,7 +106,7 @@ export default function HomePage() {
           {/* Article List */}
           <div className="articles-list">
             {selectedArticles.map((article, index) => (
-                <Link key={index} href={`/articles/${article.id}`} legacyBehavior>
+                <Link key={index} href={`/articles/${article._id}`} legacyBehavior>
                   <div key={index} className="article-item">{/* <Link> */}
                     <h2>{article.title}</h2>
                     <p>Published: {article.publicationDate}</p>
