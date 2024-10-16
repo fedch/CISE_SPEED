@@ -93,17 +93,16 @@ export default function HomePage() {
                 <Link key={index} href={`/articles/${article._id}`} legacyBehavior>
                   <div key={index} className="article-item">{/* <Link> */}
                     <h2>{article.title}</h2>
-                  </a>
+                    <p>Published: {article.publicationDate}</p>
+                    <p>By: {article.author}</p>
+                    <p>
+                      DOI:{" "}
+                      <a href={`https://doi.org/${article.DOI}`} target="_blank" rel="noopener noreferrer">
+                        {article.DOI}
+                      </a>
+                    </p>
+                  </div>{/* </Link> */}
                 </Link>
-                <p>Published: {article.publicationDate}</p>
-                <p>By: {article.author}</p>
-                <p>
-                  DOI:{" "}
-                  <a href={`https://doi.org/${article.DOI}`} target="_blank" rel="noopener noreferrer">
-                    {article.DOI}
-                  </a>
-                </p>
-              </div>
             ))}
           </div>
 
