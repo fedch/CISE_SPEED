@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
+        const res = await fetch();
         if (!res.ok) {
           throw new Error("Failed to fetch articles");
         }
@@ -71,7 +71,7 @@ export default function HomePage() {
         <div className="articles-section">
           <div className="articles-header">
             <p>
-              {startIndex + 1} -{" "}
+              {startIndex + 1} - {" "}
               {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems}{" "}
               items found
             </p>
@@ -203,3 +203,6 @@ export default function HomePage() {
     </div>
   );
 }
+
+
+// test
