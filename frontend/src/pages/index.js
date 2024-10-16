@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
+        const res = await fetch();
         if (!res.ok) {
           throw new Error("Failed to fetch articles");
         }
@@ -71,7 +71,7 @@ export default function HomePage() {
         <div className="articles-section">
           <div className="articles-header">
             <p>
-              {startIndex + 1} -{" "}
+              {startIndex + 1} - {" "}
               {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems}{" "}
               items found
             </p>
@@ -204,91 +204,5 @@ export default function HomePage() {
   );
 }
 
-{
-  /* <style jsx>{`
-        .container {
-          background-color: #333;
-          color: white;
-          min-height: 100vh;
-          padding: 1rem;
-        }
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem 0;
-        }
-        .nav-links a {
-          color: white;
-          margin-left: 1rem;
-        }
-        .search-bar {
-          padding: 1rem 0;
-        }
-        .search-bar input {
-          padding: 0.2rem;
-          width: 60%;
-        }
-        .search-bar button {
-          padding: 0.5rem 1rem;
-          margin-left: 1rem;
-        }
-        .main-content {
-          width: 80%;
-          max-width: 1200px;
-          margin: auto;
-          justify-content: center;
-          padding: 1rem;
-        }
-        .articles-section {
-          background-color: #fff;
-          color: #000;
-          border-radius: 8px;
-          padding: 1rem;
-          max-height: 90vh;
-          overflow-y: auto;
-        }
-        .articles-header {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 1rem;
-        }
-        .items-per-page select {
-          margin-left: 0.5rem;
-        }
-        .articles-list {
-          overflow-y: auto;
-          max-height: 100%;
-        }
-        .article-item {
-          margin-bottom: 1rem;
-          padding-bottom: 1rem;
-          background-color: rgb(0, 0, 0, 0.07);
-        }
-        .article-item h2 {
-          font-size: 20px;
-          font-weight: bold;
-        }
-        .article-item a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-        .article-item a:hover {
-          text-decoration: underline;
-        }
-        .pagination-controls {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 1rem;
-        }
-        .pagination-controls button {
-          padding: 0.1rem 1rem;
-          cursor: pointer;
-          border: 1px black solid;
-          background-color: rgb(0, 0, 0, 0.05);
-        }
-        .pagination-controls span {
-          align-self: center;
-        }
-      `}</style> */
-}
+
+// test2
