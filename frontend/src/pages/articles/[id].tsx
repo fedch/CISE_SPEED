@@ -70,8 +70,12 @@ const ArticleDetail: React.FC = () => {
       <p><strong>DOI:</strong> {article.DOI}</p>
       <p><strong>Abstract:</strong> {article.abstract}</p>
       <p><strong>Upload Date:</strong> {article.uploadDate}</p>
-      <Link href={article.link} className="text-blue-500 underline mt-4 block" target="_blank" rel="noopener noreferrer">
+      <Link href={`https://doi.org/${article.DOI}`} className="text-blue-500 underline mt-4 block" target="_blank" rel="noopener noreferrer">
         Read Full Article
+      </Link>
+      {/* Link to a page with analysis */}
+      <Link href={`/articles/${id}/analysis`} className="text-blue-500 underline mt-4 block">
+        View Analysis
       </Link>
 
       {/* 文章评论区 */}
