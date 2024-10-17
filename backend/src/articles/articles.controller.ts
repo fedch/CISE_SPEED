@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Param, Delete, NotFoundException, UsePipes, ValidationPipe, BadRequestException } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
+import { CreateArticleDto } from './article-submit.dto';
 import { Article } from './article.entity';
 import { Types } from 'mongoose';
 
 import { ArticleAnalysisService } from './article-analysis.service';
 import { CreateAnalysisDto } from './dto/create-analysis-dto';
+
 
 
 @Controller('articles')
@@ -14,12 +16,14 @@ export class ArticlesController {
   ) {}
   
   @Post()
-  async create(@Body() articleDto: any): Promise<Article> {
-    return this.articlesService.create(articleDto);
+  async create(@Body() createArticleDto: CreateArticleDto)
+  {
+    return this.articlesService.create(createArticleDto);
   }
 
   @Get()
-  async findAll(): Promise<Article[]> {
+  async findAll()
+  {
     return this.articlesService.findAll();
   }
   
