@@ -14,5 +14,6 @@ import { ArticleAnalysisService } from './article-analysis.service';
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService, ArticleAnalysisService],
+  exports: [ArticlesService], 
 })
 export class ArticlesModule {}
