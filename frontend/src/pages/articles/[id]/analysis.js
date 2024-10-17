@@ -43,7 +43,7 @@ export default function Analysis() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             title: article.title,
             author: article.author,
             publicationDate: article.publicationDate,
@@ -51,9 +51,10 @@ export default function Analysis() {
             abstract: article.abstract,
             uploadDate: article.uploadDate,
             link: `https://doi.org/${article.DOI}`,
-            practice, 
-            claim, 
-            result }),
+            practice,
+            claim,
+            result
+          }),
         }
       );
 
@@ -62,7 +63,7 @@ export default function Analysis() {
       }
 
       // Redirect back to the article page after successful submission
-      router.push(`/articles/${router.query.id}`);
+      router.push(`/articles/analysed-articles`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -79,37 +80,40 @@ export default function Analysis() {
           <h2>{article.title}</h2>
           <p><strong>Author:</strong> {article.author}</p>
           <p><strong>Publication Date:</strong> {article.publicationDate}</p>
-          <p><strong>DOI:</strong> {article.DOI}</p>
+          <p><strong>DOI:</strong> <a href={`https://doi.org/${article.DOI}`} target="_blank" rel="noopener noreferrer">{article.DOI}</a></p>
           <p><strong>Abstract:</strong> {article.abstract}</p>
           <p><strong>Upload Date:</strong> {article.uploadDate}</p>
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label htmlFor="practice">Practice:</label>
           <input
             type="text"
             id="practice"
             value={practice}
             onChange={(e) => setPractice(e.target.value)}
+            required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="claim">Claim:</label>
           <input
             type="text"
             id="claim"
             value={claim}
             onChange={(e) => setClaim(e.target.value)}
+            required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="result">Result:</label>
           <select
             id="result"
             value={result}
             onChange={(e) => setResult(e.target.value)}
+            required
           >
             <option value="agree">Agree</option>
             <option value="disagree">Disagree</option>
@@ -121,6 +125,55 @@ export default function Analysis() {
         </button>
         {error && <div style={{ color: 'red' }}>Error: {error}</div>}
       </form>
+
+      <style jsx>{`
+        .container {
+          background-color: #333;
+          color: white;
+          min-height: 100vh;
+          padding: 2rem;
+        }
+        .article-details {
+          background-color: #fff;
+          color: #000;
+          border-radius: 8px;
+          padding: 1rem;
+          margin-bottom: 2rem;
+        }
+        .form-group {
+          margin-bottom: 1rem;
+        }
+        label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+        input, select {
+          width: 100%;
+          padding: 0.5rem;
+          margin-bottom: 1rem;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+        }
+        button {
+          padding: 0.5rem 1rem;
+          background-color: #0066cc;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        button:disabled {
+          background-color: #888;
+        }
+        button:hover:not(:disabled) {
+          background-color: #005bb5;
+        }
+        .error {
+          color: red;
+          margin-top: 1rem;
+        }
+      `}</style>
     </div>
   );
 }

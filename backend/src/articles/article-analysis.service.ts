@@ -25,8 +25,13 @@ export class ArticleAnalysisService {
     const newAnalysis = new this.analysisModel({ articleId, title, author, publicationDate, DOI, abstract, uploadDate, link, practice, claim, result });
     return newAnalysis.save();
   }
+  
 
   async findAnalysesByArticleId(articleId: string): Promise<ArticleAnalysis[]> {
     return this.analysisModel.find({ articleId }).exec();
+  }
+
+  async findAnalysedArticles(): Promise<ArticleAnalysis[]> {
+    return this.analysisModel.find().exec(); 
   }
 }

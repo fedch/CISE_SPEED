@@ -1,104 +1,147 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Article } from '../../types/Article';
 import Link from 'next/link';
 
 const ArticleDetail: React.FC = () => {
   const router = useRouter();
-  const { id } = router.query;  // 获取路由中的文章ID
-  const [email, setEmail] = useState('');
+  const { id } = router.query;
+  const [email, setEmail] = useState<string>('');  // Set the type for email state
+  const [article, setArticle] = useState<Article | null>(null);  // Explicitly define article state
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);  // Error type
 
-  // 初始化文章状态和加载状态
-  const [article, setArticle] = useState<Article | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // TODO: Change that to only check if an analyst
-  // Function to check token and set login state
   const checkLoginState = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
+      const payload = JSON.parse(atob(token.split('.')[1]));
       setEmail(payload.username);
     } else {
-      setEmail(''); // Clear email if not logged in
+      setEmail('');
     }
   };
 
   useEffect(() => {
     checkLoginState();
-    // 检查 id 是否存在并且已经定义
     if (id) {
       const fetchArticle = async () => {
         try {
-          console.log(`Fetching article with id: ${id}`);  // 添加调试信息，确保 id 被正确获取
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles/${id}`);// 向后端发送请求，获取文章数据
-
-          // 检查请求是否成功
+          console.log(`Fetching article with id: ${id}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/articles/${id}`);
           if (!response.ok) {
             throw new Error(`Failed to fetch article. Status: ${response.status}`);
           }
 
-          const data = await response.json();
-          console.log('Fetched article data:', data);  // 添加调试信息，查看返回的数据
-          setArticle(data);  // 设置文章数据
-        } catch (err) {
-          // Type guard to check if the error is an instance of Error
+          const data: Article = await response.json();  // Explicitly define response as type Article
+          setArticle(data);
+        } catch (err: unknown) {
           if (err instanceof Error) {
-            setError(err.message); // Access the message property safely
+            setError(err.message);
           } else {
-            setError('An unknown error occurred'); // Handle cases where it's not an Error object
+            setError('An unknown error occurred');
           }
         } finally {
-          setLoading(false);  // 停止加载状态
+          setLoading(false);
         }
       };
 
       fetchArticle();
     } else {
-      setLoading(false);  // 如果 id 不存在，直接停止加载状态
+      setLoading(false);
     }
-  }, [id]);  // 监听 id 的变化，确保路由变化时重新加载数据
+  }, [id]);
 
-  // 显示加载状态
   if (loading) {
     return <div>Loading article...</div>;
   }
 
-  // 如果出现错误，显示错误信息
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  // 如果文章未找到，返回提示信息
   if (!article) {
     return <div>Article not found</div>;
   }
 
-  // 渲染文章详细信息
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">{article.title}</h1>
-      <p><strong>Author:</strong> {article.author}</p>
-      <p><strong>Publication Date:</strong> {article.publicationDate}</p>
-      <p><strong>DOI:</strong> {article.DOI}</p>
-      <p><strong>Abstract:</strong> {article.abstract}</p>
-      <p><strong>Upload Date:</strong> {article.uploadDate}</p>
-      <Link href={`https://doi.org/${article.DOI}`} className="text-blue-500 underline mt-4 block" target="_blank" rel="noopener noreferrer">
-        Read Full Article
-      </Link>
-      {/* Link to a page with analysis */}
-      {email === 'gifyevalmu@gufum.com' && (
-      <Link href={`/articles/${id}/analysis`} className="text-blue-500 underline mt-4 block">
-        Add Analysis
-      </Link>
-      )}
+    <div className="container">
+      <div className="article-details">
+        <h1 className="title">{article.title}</h1>
+        <p><strong>Author:</strong> {article.author}</p>
+        <p><strong>Publication Date:</strong> {article.publicationDate}</p>
+        <p><strong>DOI:</strong> {article.DOI}</p>
+        <p><strong>Abstract:</strong> {article.abstract}</p>
+        <p><strong>Upload Date:</strong> {article.uploadDate}</p>
+        <Link href={`https://doi.org/${article.DOI}`} className="doi-link" target="_blank" rel="noopener noreferrer">
+          Read Full Article
+        </Link>
+        <br />
+        {email === 'gifyevalmu@gufum.com' && (
+          <Link href={`/articles/${id}/analysis`} className="analysis-link">
+            Add Analysis
+          </Link>
+        )}
 
-      {/* 文章评论区 */}
-      <section className="mt-8">
-        <h2 className="text-xl font-semibold mb-2">Article Reviews</h2>
-        <p className="text-gray-500">Reviews section will be here...</p>
-      </section>
+        <section className="reviews-section">
+          <h2 className="reviews-title">Article Reviews</h2>
+          <p className="reviews-placeholder">Reviews section will be here...</p>
+        </section>
+      </div>
+
+      <style jsx>{`
+        .container {
+          max-width: 800px;
+          margin: 2rem auto;
+          padding: 1.5rem;
+          background-color: #333;
+          color: white;
+          border-radius: 10px;
+        }
+        .article-details {
+          background-color: #fff;
+          color: #000;
+          padding: 1.5rem;
+          border-radius: 10px;
+        }
+        .title {
+          font-size: 2rem;
+          font-weight: bold;
+          margin-bottom: 1.5rem;
+        }
+        p {
+          margin-bottom: 0.5rem;
+        }
+        .doi-link {
+          display: block;
+          margin-top: 1rem;
+          color: #1e90ff;
+          text-decoration: underline;
+        }
+        .analysis-link {
+          display: block;
+          margin-top: 1rem;
+          color: #32cd32;
+          text-decoration: underline;
+        }
+        .reviews-section {
+          margin-top: 2rem;
+        }
+        .reviews-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+        }
+        .reviews-placeholder {
+          color: #777;
+        }
+        .loading, .error, .not-found {
+          text-align: center;
+          margin-top: 2rem;
+        }
+        .error {
+          color: red;
+        }
+      `}</style>
     </div>
   );
 };

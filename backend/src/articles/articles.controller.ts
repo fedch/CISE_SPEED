@@ -9,9 +9,10 @@ import { CreateAnalysisDto } from './dto/create-analysis-dto';
 
 @Controller('articles')
 export class ArticlesController {
-  constructor(private readonly articlesService: ArticlesService,
-  private readonly analysisService: ArticleAnalysisService,
-  ) {}
+  constructor(
+    private readonly articlesService: ArticlesService,
+    private readonly analysisService: ArticleAnalysisService,
+    ) {}
   
   @Post()
   async create(@Body() articleDto: any): Promise<Article> {
@@ -22,6 +23,12 @@ export class ArticlesController {
   async findAll(): Promise<Article[]> {
     return this.articlesService.findAll();
   }
+
+  @Get('all-analyses')
+  async getAnalysedArticles() {
+    return this.analysisService.findAnalysedArticles();  // Directly return all analyses
+  
+  }
   
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Article> {
@@ -31,12 +38,13 @@ export class ArticlesController {
     return this.articlesService.findOne(id);
   }
 
-  // 添加删除文章的 API
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<Article> {
-    return this.articlesService.delete(id); // 调用服务层的删除方法
+    return this.articlesService.delete(id); 
   }
 
+
+  
   // Add analysis to an article
   @Post(':id/analysis')
   @UsePipes(new ValidationPipe())
