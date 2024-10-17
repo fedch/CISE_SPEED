@@ -62,12 +62,19 @@ const Navbar: React.FC = () => {
             <li>
               <button onClick={handleLogout} className="text-white">Log out</button>
             </li>
-            {/* Conditionally render the Dash link if the email is nanipip554@sgatra.com */}
+            {/* Conditionally render the Dash link if the email is nanipip554@sgatra.com 
+            TODO: Change to a JWT*/}
             {email === 'nanipip554@sgatra.com' && (
               <li>
                 <Link href="/admin/dashboard" className="text-white">Dash</Link>
               </li>
             )}
+            {/* TODO: Change to a JWT */}
+            {email === 'gifyevalmu@gufum.com' && (
+              <li>
+                <Link href="/analyst/dashboard" className="text-white">Dash</Link>
+                </li>
+              )}
           </>
         ) : (
           <>

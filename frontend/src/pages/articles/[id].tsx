@@ -6,13 +6,27 @@ import Link from 'next/link';
 const ArticleDetail: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;  // 获取路由中的文章ID
+  const [email, setEmail] = useState('');
 
   // 初始化文章状态和加载状态
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // TODO: Change that to only check if an analyst
+  // Function to check token and set login state
+  const checkLoginState = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
+      setEmail(payload.username);
+    } else {
+      setEmail(''); // Clear email if not logged in
+    }
+  };
+
   useEffect(() => {
+    checkLoginState();
     // 检查 id 是否存在并且已经定义
     if (id) {
       const fetchArticle = async () => {
@@ -74,9 +88,11 @@ const ArticleDetail: React.FC = () => {
         Read Full Article
       </Link>
       {/* Link to a page with analysis */}
+      {email === 'gifyevalmu@gufum.com' && (
       <Link href={`/articles/${id}/analysis`} className="text-blue-500 underline mt-4 block">
-        View Analysis
+        Add Analysis
       </Link>
+      )}
 
       {/* 文章评论区 */}
       <section className="mt-8">
