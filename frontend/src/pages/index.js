@@ -29,9 +29,8 @@ export default function HomePage() {
   }, []); // Empty array ensures the effect runs only once when the component mounts
 
   useEffect(() => {
-    console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);  // This should log the correct URL
+    console.log("API URL:", process.env.NEXT_PUBLIC_API_URL); // This should log the correct URL
   }, []);
-  
 
   // Handle items per page change
   const handleItemsPerPageChange = (e) => {
@@ -71,7 +70,7 @@ export default function HomePage() {
         <div className="articles-section">
           <div className="articles-header">
             <p>
-              {startIndex + 1} - {" "}
+              {startIndex + 1} -{" "}
               {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems}{" "}
               items found
             </p>
@@ -90,19 +89,29 @@ export default function HomePage() {
           {/* Article List */}
           <div className="articles-list">
             {selectedArticles.map((article, index) => (
-                <Link key={index} href={`/articles/${article._id}`} legacyBehavior>
-                  <div key={index} className="article-item">{/* <Link> */}
-                    <h2>{article.title}</h2>
-                    <p>Published: {article.publicationDate}</p>
-                    <p>By: {article.author}</p>
-                    <p>
-                      DOI:{" "}
-                      <a href={`https://doi.org/${article.DOI}`} target="_blank" rel="noopener noreferrer">
-                        {article.DOI}
-                      </a>
-                    </p>
-                  </div>{/* </Link> */}
-                </Link>
+              <Link
+                key={index}
+                href={`/articles/${article._id}`}
+                legacyBehavior
+              >
+                <div key={index} className="article-item">
+                  {/* <Link> */}
+                  <h2>{article.title}</h2>
+                  <p>Published: {article.publicationDate}</p>
+                  <p>By: {article.author}</p>
+                  <p>
+                    DOI:{" "}
+                    <a
+                      href={`https://doi.org/${article.DOI}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {article.DOI}
+                    </a>
+                  </p>
+                </div>
+                {/* </Link> */}
+              </Link>
             ))}
           </div>
 
@@ -209,6 +218,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-
-// test2
