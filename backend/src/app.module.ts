@@ -6,7 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { AdminController } from './auth/admin.controller';
 import { ArticlesModule } from './articles/articles.module';
-
+import { ReviewsModule } from './articles/reviews.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +21,7 @@ import { ArticlesModule } from './articles/articles.module';
     }),
     AuthModule,
     ArticlesModule,
+    ReviewsModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService],

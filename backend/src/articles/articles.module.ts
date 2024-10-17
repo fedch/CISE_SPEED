@@ -10,5 +10,6 @@ import { Article, ArticleSchema } from './article.entity'; // Adjust the path if
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService],
+  exports: [ArticlesService], 
 })
 export class ArticlesModule {}
