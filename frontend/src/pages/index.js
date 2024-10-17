@@ -177,14 +177,14 @@ export default function HomePage() {
           gap: 10px;
         }
         .search-bar input {
-          padding: 0.5rem;
+          padding: 0.2rem;
           flex-grow: 1;
           border-radius: 4px;
           border: 1px solid #ccc;
           color: black;
         }
         .search-bar button {
-          padding: 0.5rem 1rem;
+          padding: 0.2rem 0.5rem;
           background-color: darkslategrey;
           color: white;
           border: none;
