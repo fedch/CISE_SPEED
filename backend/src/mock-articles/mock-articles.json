@@ -1,0 +1,30 @@
+[
+    {
+      "title": "The Future of AI in Healthcare",
+      "author": "Dr. Jane Smith",
+      "publicationDate": "2023-10-01",
+      "DOI": "10.1234/aihealthcare.2023.001",
+      "abstract": "This article explores the potential future applications of artificial intelligence in the healthcare industry, particularly in diagnostics and treatment plans.",
+      "uploadDate": "2023-10-05",
+      "link": "https://example.com/ai-healthcare"
+    },
+    {
+      "title": "Quantum Computing: An Overview",
+      "author": "John Doe",
+      "publicationDate": "2024-01-15",
+      "DOI": "10.5678/quantum.overview.2024.002",
+      "abstract": "A comprehensive overview of quantum computing, including its principles, challenges, and potential to revolutionize various industries.",
+      "uploadDate": "2024-01-20",
+      "link": "https://example.com/quantum-computing"
+    },
+    {
+      "title": "Climate Change and Renewable Energy",
+      "author": "Emily Green",
+      "publicationDate": "2023-06-20",
+      "DOI": "10.9101/climate.energy.2023.003",
+      "abstract": "An analysis of the impact of renewable energy technologies on mitigating the effects of climate change and reducing carbon emissions.",
+      "uploadDate": "2023-06-25",
+      "link": "https://example.com/climate-change-renewable-energy"
+    }
+  ]
+  
